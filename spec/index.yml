@@ -1,0 +1,22 @@
+swagger: '2.0'
+info:
+  version: "1.0.0"
+  title: blackbox
+  description: blackbox
+basePath: /api/v1
+schemes:
+  - http
+consumes:
+  - application/json
+produces:
+  - application/json
+  - text/html
+definitions: 
+  $ref: ./definitions/index.yml
+paths:
+  $ref: ./paths/index.yml
+securityDefinitions:
+  Bearer:
+    type: apiKey
+    name: Authorization
+    in: header

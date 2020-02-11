@@ -1,0 +1,6 @@
+type: object
+properties:
+  message:
+    type: string
+    description: A human-readable error message
+    example: You are not authorized to access this resource.
