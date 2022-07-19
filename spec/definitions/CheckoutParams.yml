@@ -1,0 +1,7 @@
+type: object 
+properties: 
+  line_items: 
+    type: array 
+    items: 
+      $ref: ./OrderLineItem.yml
+

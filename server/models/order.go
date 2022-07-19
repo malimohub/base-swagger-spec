@@ -12,28 +12,27 @@ import (
 	"github.com/go-openapi/swag"
 )
 
-// Error error
+// Order order
 //
-// swagger:model Error
-type Error struct {
+// swagger:model Order
+type Order struct {
 
-	// A human-readable error message
-	// Example: You are not authorized to access this resource.
-	Message string `json:"message,omitempty"`
+	// The unique reference id of the order
+	RefID string `json:"ref_id,omitempty"`
 }
 
-// Validate validates this error
-func (m *Error) Validate(formats strfmt.Registry) error {
+// Validate validates this order
+func (m *Order) Validate(formats strfmt.Registry) error {
 	return nil
 }
 
-// ContextValidate validates this error based on context it is used
-func (m *Error) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+// ContextValidate validates this order based on context it is used
+func (m *Order) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 
 // MarshalBinary interface implementation
-func (m *Error) MarshalBinary() ([]byte, error) {
+func (m *Order) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
@@ -41,8 +40,8 @@ func (m *Error) MarshalBinary() ([]byte, error) {
 }
 
 // UnmarshalBinary interface implementation
-func (m *Error) UnmarshalBinary(b []byte) error {
-	var res Error
+func (m *Order) UnmarshalBinary(b []byte) error {
+	var res Order
 	if err := swag.ReadJSON(b, &res); err != nil {
 		return err
 	}

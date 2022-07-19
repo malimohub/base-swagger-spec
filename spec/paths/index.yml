@@ -1,2 +1,4 @@
-/user/{id}:
-  $ref: ./users.yml
+/algorand/qrcodes:
+  $ref: ./algorand_qr_code.yml
+/checkout:
+  $ref: ./checkout.yml

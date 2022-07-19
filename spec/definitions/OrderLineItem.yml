@@ -1,0 +1,5 @@
+type: object 
+properties: 
+  product_id: 
+    type: string 
+    description: The unique reference id of the product

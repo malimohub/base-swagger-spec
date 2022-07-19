@@ -1,0 +1,19 @@
+post:
+  tags: ["crypto-checkout"]
+  summary: Post start checkout  
+  description: |
+    Post start checkout
+  parameters:
+    - name: body
+      in: body
+      schema: 
+        $ref: '../index.yml#/definitions/CheckoutParams'
+  responses:
+    200:
+      description: Success
+      schema:
+        $ref: '../index.yml#/definitions/Checkout'
+    500:
+      description: Internal server error
+      schema:
+        $ref: '../index.yml#/definitions/Error'

@@ -1,0 +1,15 @@
+version: "3"
+services:
+  crypto-checkout-api:
+    image: crypto-checkout-api
+    build: 
+      context: .
+      dockerfile: dev.Dockerfile
+    #env_file:
+    #  - .env
+    ports:
+      - "8082:8082"
+    restart: unless-stopped
+    volumes:
+      - ./:/go/src/app/
+      - ./go.mod:/go/src/app/go.mod

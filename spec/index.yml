@@ -10,7 +10,6 @@ consumes:
   - application/json
 produces:
   - application/json
-  - text/html
 definitions: 
   $ref: ./definitions/index.yml
 paths:

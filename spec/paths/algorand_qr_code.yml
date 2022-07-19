@@ -1,0 +1,15 @@
+get:
+  tags: ["crypto-checkout"]
+  summary: GET Algorand redeem rewards QR code
+  description: |
+    GET Algorand redeem rewards QR code
+
+  responses:
+    200:
+      description: Success
+      schema:
+        $ref: '../index.yml#/definitions/CheckoutQRCode'
+    500:
+      description: Internal server error
+      schema:
+        $ref: '../index.yml#/definitions/Error'

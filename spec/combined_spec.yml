@@ -11,8 +11,17 @@
     - "application/json"
   produces: 
     - "application/json"
-    - "text/html"
   definitions: 
+    CheckoutQRCode: 
+      type: "object"
+      properties: 
+        amount: 
+          type: "integer"
+          format: "int64"
+        base64_encoded_qr_code: 
+          type: "string"
+        message: 
+          type: "string"
     Error: 
       type: "object"
       properties: 
@@ -20,34 +29,60 @@
           type: "string"
           description: "A human-readable error message"
           example: "You are not authorized to access this resource."
-    User: 
+    Checkout: 
       type: "object"
       properties: 
-        name: 
+        ref_id: 
           type: "string"
-          description: "The user's name"
+          description: "The unique reference id of the order"
+        algorand_qrcode: 
+          $ref: "#/definitions/CheckoutQRCode"
+    CheckoutParams: 
+      type: "object"
+      properties: 
+        line_items: 
+          type: "array"
+          items: 
+            $ref: "#/definitions/OrderLineItems"
+    OrderLineItems: 
+      type: "object"
+      properties: 
+        product_id: 
+          type: "string"
+          description: "The unique reference id of the product"
   paths: 
-    /user/{id}: 
+    /algorand/qrcodes: 
       get: 
         tags: 
-          - "users"
-        summary: "Get user"
-        description: "Get user account\n"
-        security: 
-          - 
-            Bearer: []
-        parameters: 
-          - 
-            name: "id"
-            in: "path"
-            required: true
-            description: "The unique user reference id\n"
-            type: "string"
+          - "crypto-checkout"
+        summary: "GET Algorand redeem rewards QR code"
+        description: "GET Algorand redeem rewards QR code\n"
         responses: 
           200: 
-            description: "Successfully got user"
+            description: "Success"
             schema: 
-              $ref: "#/definitions/User"
+              $ref: "#/definitions/CheckoutQRCode"
+          500: 
+            description: "Internal server error"
+            schema: 
+              $ref: "#/definitions/Error"
+    /checkout: 
+      post: 
+        tags: 
+          - "crypto-checkout"
+        summary: "Post start checkout"
+        description: "Post start checkout\n"
+        parameters: 
+          - 
+            name: "body"
+            in: "body"
+            schema: 
+              $ref: "#/definitions/CheckoutParams"
+        responses: 
+          200: 
+            description: "Success"
+            schema: 
+              $ref: "#/definitions/Checkout"
           500: 
             description: "Internal server error"
             schema: 

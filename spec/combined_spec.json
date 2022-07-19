@@ -13,10 +13,24 @@
     "application/json"
   ],
   "produces": [
-    "application/json",
-    "text/html"
+    "application/json"
   ],
   "definitions": {
+    "CheckoutQRCode": {
+      "type": "object",
+      "properties": {
+        "amount": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "base64_encoded_qr_code": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        }
+      }
+    },
     "Error": {
       "type": "object",
       "properties": {
@@ -27,43 +41,84 @@
         }
       }
     },
-    "User": {
+    "Checkout": {
       "type": "object",
       "properties": {
-        "name": {
+        "ref_id": {
           "type": "string",
-          "description": "The user's name"
+          "description": "The unique reference id of the order"
+        },
+        "algorand_qrcode": {
+          "$ref": "#/definitions/CheckoutQRCode"
+        }
+      }
+    },
+    "CheckoutParams": {
+      "type": "object",
+      "properties": {
+        "line_items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/OrderLineItems"
+          }
+        }
+      }
+    },
+    "OrderLineItems": {
+      "type": "object",
+      "properties": {
+        "product_id": {
+          "type": "string",
+          "description": "The unique reference id of the product"
         }
       }
     }
   },
   "paths": {
-    "/user/{id}": {
+    "/algorand/qrcodes": {
       "get": {
         "tags": [
-          "users"
+          "crypto-checkout"
         ],
-        "summary": "Get user",
-        "description": "Get user account\n",
-        "security": [
-          {
-            "Bearer": []
+        "summary": "GET Algorand redeem rewards QR code",
+        "description": "GET Algorand redeem rewards QR code\n",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/CheckoutQRCode"
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
           }
+        }
+      }
+    },
+    "/checkout": {
+      "post": {
+        "tags": [
+          "crypto-checkout"
         ],
+        "summary": "Post start checkout",
+        "description": "Post start checkout\n",
         "parameters": [
           {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "description": "The unique user reference id\n",
-            "type": "string"
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/CheckoutParams"
+            }
           }
         ],
         "responses": {
           "200": {
-            "description": "Successfully got user",
+            "description": "Success",
             "schema": {
-              "$ref": "#/definitions/User"
+              "$ref": "#/definitions/Checkout"
             }
           },
           "500": {

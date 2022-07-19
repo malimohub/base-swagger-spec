@@ -1,0 +1,7 @@
+type: object
+properties: 
+  ref_id: 
+    type: string 
+    description: The unique reference id of the order
+  algorand_qrcode: 
+    $ref: ./CheckoutQRCode.yml

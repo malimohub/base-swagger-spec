@@ -22,8 +22,7 @@ func init() {
     "application/json"
   ],
   "produces": [
-    "application/json",
-    "text/html"
+    "application/json"
   ],
   "schemes": [
     "http"
@@ -36,32 +35,50 @@ func init() {
   },
   "basePath": "/api/v1",
   "paths": {
-    "/user/{id}": {
+    "/algorand/qrcodes": {
       "get": {
-        "security": [
-          {
-            "Bearer": []
-          }
-        ],
-        "description": "Get user account\n",
+        "description": "GET Algorand redeem rewards QR code\n",
         "tags": [
-          "users"
+          "crypto-checkout"
         ],
-        "summary": "Get user",
+        "summary": "GET Algorand redeem rewards QR code",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/CheckoutQRCode"
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/checkout": {
+      "post": {
+        "description": "Post start checkout\n",
+        "tags": [
+          "crypto-checkout"
+        ],
+        "summary": "Post start checkout",
         "parameters": [
           {
-            "type": "string",
-            "description": "The unique user reference id\n",
-            "name": "id",
-            "in": "path",
-            "required": true
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/CheckoutParams"
+            }
           }
         ],
         "responses": {
           "200": {
-            "description": "Successfully got user",
+            "description": "Success",
             "schema": {
-              "$ref": "#/definitions/User"
+              "$ref": "#/definitions/Checkout"
             }
           },
           "500": {
@@ -75,6 +92,44 @@ func init() {
     }
   },
   "definitions": {
+    "Checkout": {
+      "type": "object",
+      "properties": {
+        "algorand_qrcode": {
+          "$ref": "#/definitions/CheckoutQRCode"
+        },
+        "ref_id": {
+          "description": "The unique reference id of the order",
+          "type": "string"
+        }
+      }
+    },
+    "CheckoutParams": {
+      "type": "object",
+      "properties": {
+        "line_items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/OrderLineItems"
+          }
+        }
+      }
+    },
+    "CheckoutQRCode": {
+      "type": "object",
+      "properties": {
+        "amount": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "base64_encoded_qr_code": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        }
+      }
+    },
     "Error": {
       "type": "object",
       "properties": {
@@ -85,11 +140,11 @@ func init() {
         }
       }
     },
-    "User": {
+    "OrderLineItems": {
       "type": "object",
       "properties": {
-        "name": {
-          "description": "The user's name",
+        "product_id": {
+          "description": "The unique reference id of the product",
           "type": "string"
         }
       }
@@ -108,8 +163,7 @@ func init() {
     "application/json"
   ],
   "produces": [
-    "application/json",
-    "text/html"
+    "application/json"
   ],
   "schemes": [
     "http"
@@ -122,32 +176,50 @@ func init() {
   },
   "basePath": "/api/v1",
   "paths": {
-    "/user/{id}": {
+    "/algorand/qrcodes": {
       "get": {
-        "security": [
-          {
-            "Bearer": []
-          }
-        ],
-        "description": "Get user account\n",
+        "description": "GET Algorand redeem rewards QR code\n",
         "tags": [
-          "users"
+          "crypto-checkout"
         ],
-        "summary": "Get user",
+        "summary": "GET Algorand redeem rewards QR code",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/CheckoutQRCode"
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/checkout": {
+      "post": {
+        "description": "Post start checkout\n",
+        "tags": [
+          "crypto-checkout"
+        ],
+        "summary": "Post start checkout",
         "parameters": [
           {
-            "type": "string",
-            "description": "The unique user reference id\n",
-            "name": "id",
-            "in": "path",
-            "required": true
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/CheckoutParams"
+            }
           }
         ],
         "responses": {
           "200": {
-            "description": "Successfully got user",
+            "description": "Success",
             "schema": {
-              "$ref": "#/definitions/User"
+              "$ref": "#/definitions/Checkout"
             }
           },
           "500": {
@@ -161,6 +233,44 @@ func init() {
     }
   },
   "definitions": {
+    "Checkout": {
+      "type": "object",
+      "properties": {
+        "algorand_qrcode": {
+          "$ref": "#/definitions/CheckoutQRCode"
+        },
+        "ref_id": {
+          "description": "The unique reference id of the order",
+          "type": "string"
+        }
+      }
+    },
+    "CheckoutParams": {
+      "type": "object",
+      "properties": {
+        "line_items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/OrderLineItems"
+          }
+        }
+      }
+    },
+    "CheckoutQRCode": {
+      "type": "object",
+      "properties": {
+        "amount": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "base64_encoded_qr_code": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        }
+      }
+    },
     "Error": {
       "type": "object",
       "properties": {
@@ -171,11 +281,11 @@ func init() {
         }
       }
     },
-    "User": {
+    "OrderLineItems": {
       "type": "object",
       "properties": {
-        "name": {
-          "description": "The user's name",
+        "product_id": {
+          "description": "The unique reference id of the product",
           "type": "string"
         }
       }

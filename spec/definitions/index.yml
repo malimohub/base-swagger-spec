@@ -1,4 +1,10 @@
+CheckoutQRCode:
+  $ref: ./CheckoutQRCode.yml
 Error: 
   $ref: ./Error.yml 
-User:
-  $ref: ./User.yml
+Checkout:
+  $ref: ./Checkout.yml
+CheckoutParams:
+  $ref: ./CheckoutParams.yml
+OrderLineItems:  
+  $ref: ./OrderLineItem.yml
